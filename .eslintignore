@@ -1,0 +1,5 @@
+src/serviceWorker.ts
+*.test.tsx
+*.svg
+prettier.config.js
+src/react-app-env.d.ts
