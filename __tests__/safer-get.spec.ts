@@ -1,21 +1,21 @@
 import { safer } from '../src/index'
 
-describe('safer get', function() {
-  let obj = {
-    a: {
-      b: {
-        c: {
-          d: {
-            g: undefined as undefined | string,
-            f: null as null
-          }
+type Nullable = { a: { b: string } } | null
+const obj = {
+  a: {
+    b: {
+      c: {
+        d: {
+          g: undefined as undefined | string,
+          f: null as null
         }
       }
-    },
-    b: {}
-  }
-  let nullableObj: { a: { b: string } } | null = null
-  let nullableComposedObj = { a: nullableObj }
+    }
+  },
+  b: {}
+}
+
+describe('safer get', function() {
   it('should return the value when exists (with string notation)', function() {
     const result = safer(obj, 'a')
     expect(result).toEqual(obj.a)
@@ -42,11 +42,13 @@ describe('safer get', function() {
   })
 
   it('should return undefined when the obj value is null', function() {
+    const nullableObj: Nullable = null
     const result = safer(nullableObj, ['a', 'b'])
     expect(result).toBeUndefined()
   })
 
   it('should return undefined when a middle key is null', function() {
+    const nullableComposedObj: { a: Nullable } = { a: null }
     const result = safer(nullableComposedObj, ['a', 'a'])
     expect(result).toBeUndefined()
   })

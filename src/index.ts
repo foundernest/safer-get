@@ -3,16 +3,16 @@
 type DeepNonNullable<T> = T extends (...args: any[]) => any
   ? T
   : T extends any[]
-  ? _DeepNonNullableArray<T[number]>
+  ? DeepNonNullableArray<T[number]>
   : T extends object
-  ? _DeepNonNullableObject<T>
+  ? DeepNonNullableObject<T>
   : T
 /** @private */
 // tslint:disable-next-line:class-name
-interface _DeepNonNullableArray<T>
+interface DeepNonNullableArray<T>
   extends Array<DeepNonNullable<NonNullable<T>>> {}
 /** @private */
-type _DeepNonNullableObject<T> = {
+type DeepNonNullableObject<T> = {
   [P in keyof T]-?: DeepNonNullable<NonNullable<T[P]>>
 }
 
