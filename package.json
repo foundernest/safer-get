@@ -1,6 +1,6 @@
 {
   "name": "safer-get",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Small utility for accessing deep nested parameters in Typescript",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -24,10 +24,10 @@
     "lint": "eslint 'src/**/*.ts{,x}' --fix",
     "coveralls": "yarn test --coverage && cat ./coverage/lcov.info | coveralls",
     "prepare": "yarn build",
-    "prepublishOnly": "yarn test && yarn lint",
+    "prepublishOnly": "yarn login && yarn test && yarn lint",
     "preversion": "yarn lint",
     "version": "yarn format && git add -A",
-    "postversion": "git push && git push --tags && npm publish --access public"
+    "postversion": "git push && git push --tags && yarn publish --access public"
   },
   "repository": {
     "type": "git",
