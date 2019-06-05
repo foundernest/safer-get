@@ -25,7 +25,7 @@ describe('safer get', function() {
   })
 
   it('should return undefined otherwise', function() {
-    const result = safer(obj as any, ['b', 'hello'])
+    const result = safer(obj as any, ['b', 'hello', 'other'])
     expect(result).toBeUndefined()
   })
 
