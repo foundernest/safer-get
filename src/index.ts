@@ -1,5 +1,22 @@
-// From https://github.com/Microsoft/TypeScript/issues/12290#issuecomment-449425101
+// From "https://github.com/piotrwitek/utility-types/blob/6b28bfab0adedfa0436ddf3e55e92f8ad6cf83f8/src/mapped-types.ts"
 
+type DeepNonNullable<T> = T extends (...args: any[]) => any
+  ? T
+  : T extends any[]
+  ? _DeepNonNullableArray<T[number]>
+  : T extends object
+  ? _DeepNonNullableObject<T>
+  : T
+/** @private */
+// tslint:disable-next-line:class-name
+interface _DeepNonNullableArray<T>
+  extends Array<DeepNonNullable<NonNullable<T>>> {}
+/** @private */
+type _DeepNonNullableObject<T> = {
+  [P in keyof T]-?: DeepNonNullable<NonNullable<T[P]>>
+}
+
+// From https://github.com/Microsoft/TypeScript/issues/12290#issuecomment-449425101
 interface PathArray<T, L> extends Array<string | number> {
   ['0']?: keyof T
   ['1']?: L extends {
@@ -126,15 +143,15 @@ function toArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
 
-export function safer<T, L extends Path<NonNullable<T>, L>>(
+export function safer<T, L extends Path<DeepNonNullable<T>, L>>(
   object: T,
   params: L,
-  defaultValue: PathValue<NonNullable<T>, L>
-): PathValue<NonNullable<T>, L>
-export function safer<T, L extends Path<NonNullable<T>, L>>(
+  defaultValue: PathValue<DeepNonNullable<T>, L>
+): PathValue<DeepNonNullable<T>, L>
+export function safer<T, L extends Path<DeepNonNullable<T>, L>>(
   object: T,
   params: L
-): PathValue<NonNullable<T>, L> | undefined
+): PathValue<DeepNonNullable<T>, L> | undefined
 
 export function safer(object: any, path: any, defaultValue?: any) {
   if (object === null || object === undefined) {
