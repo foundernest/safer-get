@@ -126,17 +126,20 @@ function toArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
 
-export function safer<T, L extends Path<T, L>>(
+export function safer<T, L extends Path<NonNullable<T>, L>>(
   object: T,
   params: L,
-  defaultValue: PathValue<T, L>
-): PathValue<T, L>
-export function safer<T, L extends Path<T, L>>(
+  defaultValue: PathValue<NonNullable<T>, L>
+): PathValue<NonNullable<T>, L>
+export function safer<T, L extends Path<NonNullable<T>, L>>(
   object: T,
   params: L
-): PathValue<T, L> | undefined
+): PathValue<NonNullable<T>, L> | undefined
 
 export function safer(object: any, path: any, defaultValue?: any) {
+  if (object === null || object === undefined) {
+    return undefined
+  }
   const pathArray = toArray(path as string[])
   let temp: any = object
   for (let p = 0; p < pathArray.length; p++) {

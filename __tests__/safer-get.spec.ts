@@ -7,6 +7,7 @@ describe('safer get', function() {
     },
     b: {}
   }
+  let nullableObj: { a: { b: string } } | null = null
 
   it('should return the value when exists (with string notation)', function() {
     const result = safer(obj, 'a')
@@ -30,6 +31,11 @@ describe('safer get', function() {
 
   it('should return undefined even when the value is null', function() {
     const result = safer(obj, ['a', 'b', 'c', 'd', 'f'])
+    expect(result).toBeUndefined()
+  })
+
+  it('should return undefined even when the obj value is null', function() {
+    const result = safer(nullableObj, ['a', 'b'])
     expect(result).toBeUndefined()
   })
 })
