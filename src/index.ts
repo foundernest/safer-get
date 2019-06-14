@@ -143,15 +143,15 @@ function toArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]
 }
 
-export function safer<T, L extends Path<DeepNonNullable<T>, L>>(
+export function safer<T, L extends Path<DeepNonNullable<NonNullable<T>>, L>>(
   object: T,
   params: L,
-  defaultValue: PathValue<DeepNonNullable<T>, L>
-): PathValue<DeepNonNullable<T>, L>
-export function safer<T, L extends Path<DeepNonNullable<T>, L>>(
+  defaultValue: PathValue<DeepNonNullable<NonNullable<T>>, L>
+): PathValue<DeepNonNullable<NonNullable<T>>, L>
+export function safer<T, L extends Path<DeepNonNullable<NonNullable<T>>, L>>(
   object: T,
   params: L
-): PathValue<DeepNonNullable<T>, L> | undefined
+): PathValue<DeepNonNullable<NonNullable<T>>, L> | undefined
 
 export function safer(object: any, path: any, defaultValue?: any) {
   if (object === null || object === undefined) {
@@ -164,3 +164,5 @@ export function safer(object: any, path: any, defaultValue?: any) {
   }
   return temp === undefined || temp === null ? defaultValue : temp
 }
+
+export default safer
