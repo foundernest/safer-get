@@ -1,6 +1,6 @@
 {
   "name": "safer-get",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Small utility for accessing deep nested parameters in Typescript",
   "source": "src/index.ts",
   "main": "dist/index.js",
