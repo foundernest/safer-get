@@ -9,17 +9,18 @@ Small utility for accessing deep nested parameters in Typescript
 
 ## Usage
 
-- `safer(object: Object, keyArray: string | string[], defaultValue: any)` - Gets the value at path of object. If the resolved value is `undefined` or `null`, the defaultValue is returned in its place. `keyArray` is _typed_ and has a maximum depth of 7.
+- `safer(object: Object, ...keyArray: string[])` - Gets the value at path of object. `keyArray` is _typed_ and has a maximum depth of 7.
 
-#### Options
+#### Params
 
-| Option         | Description                                                                                | Default Value |
-| -------------- | ------------------------------------------------------------------------------------------ | ------------- |
-| `defaultValue` | If the resolved value is `undefined` or `null`, the defaultValue is returned in its place. | `undefined`   |
+| Option     | Description                                                                      | Default Value |
+| ---------- | -------------------------------------------------------------------------------- | ------------- |
+| `object`   | Base object to access the values                                                 | `undefined`   |
+| `keyArray` | Array of paths to the desired value. It is _typed_ and has a maximum depth of 7. | `undefined`   |
 
 ```js
 import { safer } from 'safer-get'
 
 const data = { its: { really: { super: { nested: undefined } } } }
-const result = safer(data, ['its', 'really', 'super', 'nested'], 'defaultValue')
+const result = safer(data, 'its', 'really', 'super', 'nested')
 ```
