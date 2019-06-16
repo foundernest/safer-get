@@ -131,7 +131,7 @@ export type PathArrayValue<
   ? T[L[0]]
   : never
 
-export type Path<T, L> = PathArray<T, L> | keyof T
+export type Path<T, L> = PathArray<T, L>
 
 export type PathValue<T, L extends Path<T, L>> = L extends PathArray<T, L>
   ? PathArrayValue<T, L>
@@ -139,30 +139,18 @@ export type PathValue<T, L extends Path<T, L>> = L extends PathArray<T, L>
   ? T[L]
   : any
 
-function toArray<T>(value: T | T[]): T[] {
-  return Array.isArray(value) ? value : [value]
-}
-
 export function safer<T, L extends Path<DeepNonNullable<NonNullable<T>>, L>>(
   object: T,
-  params: L,
-  defaultValue: PathValue<DeepNonNullable<NonNullable<T>>, L>
-): PathValue<DeepNonNullable<NonNullable<T>>, L>
-export function safer<T, L extends Path<DeepNonNullable<NonNullable<T>>, L>>(
-  object: T,
-  params: L
-): PathValue<DeepNonNullable<NonNullable<T>>, L> | undefined
-
-export function safer(object: any, path: any, defaultValue?: any) {
+  ...path: L
+): PathValue<DeepNonNullable<NonNullable<T>>, L> | undefined {
   if (object === null || object === undefined) {
     return undefined
   }
-  const pathArray = toArray(path as string[])
   let temp: any = object
-  for (let p = 0; p < pathArray.length; p++) {
-    temp = !!temp ? temp[pathArray[p]] : undefined
+  for (let p = 0; p < path.length; p++) {
+    temp = !!temp ? temp[path[p]] : undefined
   }
-  return temp === undefined || temp === null ? defaultValue : temp
+  return temp === undefined || temp === null ? undefined : temp
 }
 
 export default safer
